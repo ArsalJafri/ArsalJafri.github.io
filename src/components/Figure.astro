@@ -1,0 +1,45 @@
+---
+/**
+ * Image or diagram with a caption. Use in .mdx posts:
+ *   <Figure src="/images/my-post/arch.svg" alt="..." caption="..." wide />
+ */
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  /** Let diagrams break out wider than the text column. */
+  wide?: boolean;
+}
+
+const { src, alt, caption, wide = false } = Astro.props;
+---
+
+<figure class:list={['figure', { 'figure--wide': wide }]}>
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
+  {caption && <figcaption class="meta">{caption}</figcaption>}
+</figure>
+
+<style>
+  .figure {
+    margin: var(--space-4) 0;
+  }
+
+  .figure img {
+    display: block;
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .figure figcaption {
+    margin-top: var(--space-1);
+    text-align: center;
+  }
+
+  @media (min-width: 1000px) {
+    .figure--wide {
+      margin-left: calc((var(--measure) - var(--wide)) / 2);
+      margin-right: calc((var(--measure) - var(--wide)) / 2);
+    }
+  }
+</style>

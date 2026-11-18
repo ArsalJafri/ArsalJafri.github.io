@@ -1,0 +1,107 @@
+---
+import { getCollection, render } from 'astro:content';
+import Badge from '../../components/Badge.astro';
+import PostCard from '../../components/PostCard.astro';
+import TagList from '../../components/TagList.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPostsForProject } from '../../lib/posts';
+import type { Project } from '../../lib/projects';
+import '../../styles/prose.css';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { slug: project.id }, props: { project } }));
+}
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, summary, status, tags, repo, demo } = project.data;
+const { Content } = await render(project);
+const posts = await getPostsForProject(project.id);
+---
+
+<BaseLayout title={title} description={summary}>
+  <header class="project-header">
+    <p class="meta"><a href="/projects">← Projects</a></p>
+    <div class="project-header__title">
+      <h1>{title}</h1>
+      <Badge tone={status === 'in-progress' ? 'accent' : 'neutral'}>
+        {status === 'in-progress' ? 'In progress' : 'Shipped'}
+      </Badge>
+    </div>
+    <p class="project-header__summary">{summary}</p>
+    <TagList tags={tags} />
+    {
+      (repo || demo) && (
+        <ul class="project-header__links">
+          {repo && (
+            <li>
+              <a href={repo}>Code</a>
+            </li>
+          )}
+          {demo && (
+            <li>
+              <a href={demo}>Demo</a>
+            </li>
+          )}
+        </ul>
+      )
+    }
+  </header>
+
+  <div class="prose">
+    <Content />
+  </div>
+
+  {
+    posts.length > 0 && (
+      <section class="project-writing" aria-labelledby="project-writing">
+        <h2 id="project-writing" class="section-label">Writing about this project</h2>
+        {posts.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </section>
+    )
+  }
+</BaseLayout>
+
+<style>
+  .project-header {
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-header__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    margin: var(--space-2) 0;
+  }
+
+  .project-header__title h1 {
+    margin: 0;
+  }
+
+  .project-header__summary {
+    font-size: var(--text-md);
+    color: var(--text-muted);
+  }
+
+  .project-header__links {
+    display: flex;
+    gap: var(--space-3);
+    list-style: none;
+    margin: var(--space-2) 0 0;
+    padding: 0;
+    font-size: var(--text-sm);
+  }
+
+  .project-writing {
+    margin-top: var(--space-8);
+  }
+</style>

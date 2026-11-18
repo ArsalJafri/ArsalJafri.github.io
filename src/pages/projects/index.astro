@@ -1,0 +1,26 @@
+---
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getProjectsSorted } from '../../lib/projects';
+
+const projects = await getProjectsSorted();
+---
+
+<BaseLayout title="Projects" description="Things I've built and am building, each with a write-up." wide>
+  <header class="page-header">
+    <h1>Projects</h1>
+    <p>What I'm building and what I've shipped. Each one links to its code and write-up.</p>
+  </header>
+  <ProjectGrid projects={projects} />
+</BaseLayout>
+
+<style>
+  .page-header {
+    max-width: var(--measure);
+    margin-bottom: var(--space-6);
+  }
+
+  .page-header p {
+    color: var(--text-muted);
+  }
+</style>

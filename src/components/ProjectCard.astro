@@ -1,0 +1,91 @@
+---
+import type { Project } from '../lib/projects';
+import Badge from './Badge.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { title, summary, status, tags, repo, demo } = project.data;
+const href = `/projects/${project.id}`;
+---
+
+<article class="project-card">
+  <div class="project-card__head">
+    <h3 class="project-card__title">
+      <a href={href}>{title}</a>
+    </h3>
+    <Badge tone={status === 'in-progress' ? 'accent' : 'neutral'}>
+      {status === 'in-progress' ? 'In progress' : 'Shipped'}
+    </Badge>
+  </div>
+  <p class="project-card__summary">{summary}</p>
+  <div class="project-card__foot">
+    <TagList tags={tags} />
+    <ul class="project-card__links">
+      <li><a href={href}>Details</a></li>
+      {repo && <li><a href={repo}>Code</a></li>}
+      {demo && <li><a href={demo}>Demo</a></li>}
+    </ul>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-3);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .project-card__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+
+  .project-card__title {
+    font-size: var(--text-md);
+    margin: 0;
+  }
+
+  .project-card__title a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .project-card__title a:hover {
+    color: var(--accent);
+  }
+
+  .project-card__summary {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin: 0 0 var(--space-3);
+  }
+
+  .project-card__foot {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+  }
+
+  .project-card__links {
+    display: flex;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+  }
+</style>

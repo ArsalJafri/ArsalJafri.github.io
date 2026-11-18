@@ -1,0 +1,89 @@
+---
+import PostCard from '../components/PostCard.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getRecentPosts } from '../lib/posts';
+import { getFeaturedProjects } from '../lib/projects';
+import { SITE } from '../site.config';
+
+const featured = await getFeaturedProjects();
+const recent = await getRecentPosts(3);
+---
+
+<BaseLayout wide>
+  <section class="intro">
+    <h1>{SITE.name}</h1>
+    <p class="intro__tagline">{SITE.tagline}</p>
+    <p class="intro__body">
+      Computer Science student at the University of Houston. I care about how things work underneath:
+      operating systems, distributed systems, how models run, and how software controls hardware.
+      Everything I build ends up here with a write-up.
+    </p>
+  </section>
+
+  {
+    featured.length > 0 && (
+      <section class="section" aria-labelledby="working-on">
+        <h2 id="working-on" class="section-label">Working on</h2>
+        <ProjectGrid projects={featured} />
+      </section>
+    )
+  }
+
+  <section class="section section--narrow" aria-labelledby="recent-writing">
+    <h2 id="recent-writing" class="section-label">Recent writing</h2>
+    {
+      recent.length > 0 ? (
+        <>
+          {recent.map((post) => (
+            <PostCard post={post} />
+          ))}
+          <p class="section__more">
+            <a href="/writing">All writing →</a>
+          </p>
+        </>
+      ) : (
+        <p class="empty">Nothing published yet. The first write-up is on its way.</p>
+      )
+    }
+  </section>
+</BaseLayout>
+
+<style>
+  .intro {
+    max-width: var(--measure);
+    margin-bottom: var(--space-10);
+  }
+
+  .intro h1 {
+    margin-bottom: var(--space-2);
+  }
+
+  .intro__tagline {
+    font-size: var(--text-lg);
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--space-3);
+  }
+
+  .intro__body {
+    color: var(--text-muted);
+  }
+
+  .section {
+    margin-bottom: var(--space-10);
+  }
+
+  .section--narrow {
+    max-width: var(--measure);
+  }
+
+  .section__more {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+  }
+
+  .empty {
+    color: var(--text-muted);
+  }
+</style>

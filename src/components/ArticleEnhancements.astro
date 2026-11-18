@@ -1,0 +1,107 @@
+---
+/**
+ * Small progressive enhancements for article pages (the site's only client-side JS):
+ *  - a language label and a copy button on every code block
+ *  - a "#" link beside each h2/h3 that appears on hover
+ * Without JavaScript the page still reads fine.
+ */
+---
+
+<script>
+  function enhanceCodeBlocks(root: Element) {
+    root.querySelectorAll<HTMLPreElement>('pre').forEach((pre) => {
+      if (pre.parentElement?.classList.contains('code-block')) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block';
+      pre.replaceWith(wrapper);
+      wrapper.appendChild(pre);
+
+      const language = pre.dataset.language;
+      if (language && language !== 'plaintext') {
+        const label = document.createElement('span');
+        label.className = 'code-block__lang';
+        label.textContent = language;
+        wrapper.appendChild(label);
+      }
+
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'code-block__copy';
+      button.textContent = 'Copy';
+      button.addEventListener('click', async () => {
+        await navigator.clipboard.writeText(pre.innerText);
+        button.textContent = 'Copied';
+        setTimeout(() => (button.textContent = 'Copy'), 1500);
+      });
+      wrapper.appendChild(button);
+    });
+  }
+
+  function addHeadingAnchors(root: Element) {
+    root.querySelectorAll<HTMLHeadingElement>('h2[id], h3[id]').forEach((heading) => {
+      if (heading.querySelector('.heading-anchor')) return;
+      const anchor = document.createElement('a');
+      anchor.className = 'heading-anchor';
+      anchor.href = `#${heading.id}`;
+      anchor.setAttribute('aria-label', `Link to "${heading.textContent}"`);
+      anchor.textContent = '#';
+      heading.appendChild(anchor);
+    });
+  }
+
+  document.querySelectorAll('.prose').forEach((root) => {
+    enhanceCodeBlocks(root);
+    addHeadingAnchors(root);
+  });
+</script>
+
+<style is:global>
+  .code-block {
+    position: relative;
+  }
+
+  .code-block pre {
+    padding-top: var(--space-5);
+  }
+
+  .code-block__lang,
+  .code-block__copy {
+    position: absolute;
+    top: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+  }
+
+  .code-block__lang {
+    left: var(--space-3);
+  }
+
+  .code-block__copy {
+    right: var(--space-1);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.2em 0.6em;
+    cursor: pointer;
+  }
+
+  .code-block__copy:hover {
+    color: var(--text);
+  }
+
+  .heading-anchor {
+    margin-left: 0.4em;
+    color: var(--text-muted);
+    text-decoration: none;
+    opacity: 0;
+    transition: opacity 150ms ease;
+  }
+
+  h2:hover .heading-anchor,
+  h3:hover .heading-anchor,
+  .heading-anchor:focus-visible {
+    opacity: 1;
+  }
+</style>

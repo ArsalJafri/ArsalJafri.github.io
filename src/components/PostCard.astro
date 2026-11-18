@@ -1,0 +1,64 @@
+---
+import type { Post } from '../lib/posts';
+import FormattedDate from './FormattedDate.astro';
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { title, description, date, kind, draft } = post.data;
+---
+
+<article class="post-card">
+  <p class="meta post-card__meta">
+    <FormattedDate date={date} />
+    <span aria-hidden="true">·</span>
+    <span>{kind === 'write-up' ? 'Write-up' : 'Note'}</span>
+    {draft && <span class="post-card__draft">Draft</span>}
+  </p>
+  <h3 class="post-card__title">
+    <a href={`/writing/${post.id}`}>{title}</a>
+  </h3>
+  <p class="post-card__description">{description}</p>
+</article>
+
+<style>
+  .post-card {
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .post-card:first-child {
+    padding-top: 0;
+  }
+
+  .post-card__meta {
+    display: flex;
+    gap: var(--space-1);
+    margin: 0 0 var(--space-1);
+  }
+
+  .post-card__draft {
+    color: var(--accent);
+  }
+
+  .post-card__title {
+    font-size: var(--text-lg);
+    margin: 0 0 var(--space-1);
+  }
+
+  .post-card__title a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .post-card__title a:hover {
+    color: var(--accent);
+  }
+
+  .post-card__description {
+    color: var(--text-muted);
+    margin: 0;
+  }
+</style>

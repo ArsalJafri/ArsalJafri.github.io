@@ -1,0 +1,23 @@
+---
+import PostList from '../../components/PostList.astro';
+import WritingTabs from '../../components/WritingTabs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPostsByKind } from '../../lib/posts';
+
+const notes = await getPostsByKind('note');
+---
+
+<BaseLayout title="Notes" description="Short notes on what I'm learning, reading, and getting stuck on.">
+  <header class="page-header">
+    <h1>Notes</h1>
+    <p>Short notes on what I'm learning, reading, and getting stuck on.</p>
+  </header>
+  <WritingTabs active="notes" />
+  <PostList posts={notes} emptyMessage="No notes yet." />
+</BaseLayout>
+
+<style>
+  .page-header p {
+    color: var(--text-muted);
+  }
+</style>

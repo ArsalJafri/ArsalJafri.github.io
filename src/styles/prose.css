@@ -1,0 +1,71 @@
+/* Long-form article body: Markdown/MDX output lives inside .prose */
+.prose > :first-child {
+  margin-top: 0;
+}
+
+.prose h2 {
+  margin-top: var(--space-8);
+}
+
+.prose h3 {
+  margin-top: var(--space-5);
+}
+
+.prose h2,
+.prose h3 {
+  scroll-margin-top: var(--space-4);
+}
+
+.prose li + li {
+  margin-top: var(--space-1);
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin-top: var(--space-1);
+  margin-bottom: 0;
+}
+
+.prose img {
+  display: block;
+  margin: var(--space-4) auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* A Markdown image followed by an italic line reads as a caption:  ![..](..) then *caption* */
+.prose p:has(> img) + p > em:only-child {
+  display: block;
+  margin-top: calc(-1 * var(--space-2));
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-style: normal;
+  color: var(--text-muted);
+}
+
+/* Footnotes (GFM) */
+.prose .footnotes {
+  margin-top: var(--space-8);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.prose .footnotes h2 {
+  font-size: var(--text-sm);
+  margin-top: 0;
+}
+
+.prose sup a {
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 0 0.15em;
+}
+
+.prose table {
+  display: block;
+  overflow-x: auto;
+}

@@ -1,0 +1,61 @@
+---
+import { SITE } from '../site.config';
+
+const year = new Date().getFullYear();
+const links = [
+  { href: SITE.links.github, label: 'GitHub' },
+  { href: SITE.links.linkedin, label: 'LinkedIn' },
+  { href: SITE.links.email && `mailto:${SITE.links.email}`, label: 'Email' },
+  { href: '/rss.xml', label: 'RSS' },
+].filter((link) => link.href);
+---
+
+<footer class="footer">
+  <div class="container container--wide footer__inner">
+    <span class="meta">© {year} {SITE.name}</span>
+    <ul class="footer__links">
+      {
+        links.map((link) => (
+          <li>
+            <a href={link.href}>{link.label}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--border);
+    margin-top: var(--space-12);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+
+  .footer__links {
+    display: flex;
+    gap: var(--space-3);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+  }
+
+  .footer__links a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .footer__links a:hover {
+    color: var(--text);
+  }
+</style>

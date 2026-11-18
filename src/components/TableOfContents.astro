@@ -1,0 +1,64 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+  /** Only render when a post has at least this many h2/h3 headings. */
+  minHeadings?: number;
+}
+
+const { headings, minHeadings = 3 } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  items.length >= minHeadings && (
+    <nav class="toc" aria-label="Table of contents">
+      <p class="section-label">Contents</p>
+      <ol class="toc__list">
+        {items.map((h) => (
+          <li class:list={['toc__item', { 'toc__item--sub': h.depth === 3 }]}>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
+
+<style>
+  .toc {
+    padding: var(--space-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: var(--space-6);
+  }
+
+  .toc .section-label {
+    margin-bottom: var(--space-2);
+  }
+
+  .toc__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: var(--text-sm);
+  }
+
+  .toc__item + .toc__item {
+    margin-top: var(--space-1);
+  }
+
+  .toc__item--sub {
+    padding-left: var(--space-3);
+  }
+
+  .toc__item a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .toc__item a:hover {
+    color: var(--accent);
+  }
+</style>

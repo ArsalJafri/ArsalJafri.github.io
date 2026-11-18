@@ -1,0 +1,23 @@
+---
+import { getEntry, render } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
+import { getPublishedPosts, readingMinutes, type Post } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const linked = post.data.project ? await getEntry(post.data.project) : undefined;
+const project = linked ? { id: linked.id, title: linked.data.title } : undefined;
+---
+
+<PostLayout post={post} headings={headings} minutes={readingMinutes(post.body)} project={project}>
+  <Content />
+</PostLayout>

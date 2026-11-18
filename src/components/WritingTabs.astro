@@ -1,0 +1,52 @@
+---
+interface Props {
+  active: 'all' | 'notes';
+}
+
+const { active } = Astro.props;
+const tabs = [
+  { key: 'all', href: '/writing', label: 'All' },
+  { key: 'notes', href: '/writing/notes', label: 'Notes' },
+] as const;
+---
+
+<nav class="tabs" aria-label="Filter writing">
+  {
+    tabs.map((tab) => (
+      <a
+        href={tab.href}
+        class:list={['tabs__link', { 'tabs__link--active': tab.key === active }]}
+        aria-current={tab.key === active ? 'page' : undefined}
+      >
+        {tab.label}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .tabs {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+    border-bottom: 1px solid var(--border);
+    font-size: var(--text-sm);
+  }
+
+  .tabs__link {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding-bottom: var(--space-1);
+    margin-bottom: -1px;
+    border-bottom: 1px solid transparent;
+  }
+
+  .tabs__link:hover {
+    color: var(--text);
+  }
+
+  .tabs__link--active {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+  }
+</style>

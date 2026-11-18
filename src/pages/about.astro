@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../site.config';
+
+const contact = [
+  { href: SITE.links.github, label: 'GitHub' },
+  { href: SITE.links.linkedin, label: 'LinkedIn' },
+  { href: SITE.links.email && `mailto:${SITE.links.email}`, label: SITE.links.email || 'Email' },
+].filter((link) => link.href);
+---
+
+<BaseLayout title="About" description={`About ${SITE.name}.`}>
+  <h1>About</h1>
+
+  <p>
+    I'm {SITE.name}, a Computer Science student at the University of Houston with minors in
+    Mathematics and Software Design.
+  </p>
+  <p>
+    I like understanding systems from the bottom up: what the operating system is doing, how data
+    survives a crash, how a model actually runs, and how software moves things in the physical world.
+    I learn by building, and I write up what I build here.
+  </p>
+
+  <h2>I also build software for businesses</h2>
+  <ul>
+    <li>Websites and web applications</li>
+    <li>E-commerce and ordering platforms</li>
+    <li>Cost estimators and quoting tools</li>
+    <li>Internal dashboards and workflow automation</li>
+    <li>AI integrations: assistants, document processing, and automation built on LLMs</li>
+  </ul>
+
+  <h2>Contact</h2>
+  <ul class="contact">
+    {
+      contact.map((link) => (
+        <li>
+          <a href={link.href}>{link.label}</a>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>

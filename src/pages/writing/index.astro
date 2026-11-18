@@ -1,0 +1,23 @@
+---
+import PostList from '../../components/PostList.astro';
+import WritingTabs from '../../components/WritingTabs.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPublishedPosts } from '../../lib/posts';
+
+const posts = await getPublishedPosts();
+---
+
+<BaseLayout title="Writing" description="Write-ups of projects I've built, plus shorter notes on what I'm learning.">
+  <header class="page-header">
+    <h1>Writing</h1>
+    <p>Write-ups of what I build, plus shorter notes on what I'm learning and reading.</p>
+  </header>
+  <WritingTabs active="all" />
+  <PostList posts={posts} emptyMessage="Nothing published yet. The first write-up is on its way." />
+</BaseLayout>
+
+<style>
+  .page-header p {
+    color: var(--text-muted);
+  }
+</style>
