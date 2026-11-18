@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="#fbfbf9"/>
   <rect x="80" y="80" width="56" height="56" rx="12" fill="#1f4f8f"/>
-  <text x="108" y="120" text-anchor="middle" font-family="Inter" font-size="32" font-weight="600" fill="#fbfbf9">D</text>
-  <text x="80" y="330" font-family="Inter" font-size="88" font-weight="600" letter-spacing="-2" fill="#1a1a19">Dashy</text>
+  <text x="108" y="120" text-anchor="middle" font-family="Inter" font-size="32" font-weight="600" fill="#fbfbf9">A</text>
+  <text x="80" y="330" font-family="Inter" font-size="88" font-weight="600" letter-spacing="-2" fill="#1a1a19">Arsal Jafri</text>
   <text x="80" y="410" font-family="Inter" font-size="36" fill="#5c5c58">Systems, AI, and hardware. Projects and writing.</text>
   <line x1="80" y1="510" x2="1120" y2="510" stroke="#e4e3de" stroke-width="2"/>
   <text x="80" y="560" font-family="DejaVu Sans Mono" font-size="26" fill="#5c5c58">arsaljafri.github.io</text>

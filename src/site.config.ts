@@ -3,11 +3,11 @@
  * Leave a link as an empty string to hide it everywhere.
  */
 export const SITE = {
-  name: 'Dashy',
-  title: 'Dashy',
+  name: 'Arsal Jafri',
+  title: 'Arsal Jafri',
   tagline: 'I build software across systems, AI, and hardware, and write about what I learn.',
   description:
-    'Projects and writing by Dashy, a Computer Science student at the University of Houston building across systems, AI, and hardware.',
+    'Projects and writing by Arsal Jafri, a Computer Science student at the University of Houston building across systems, AI, and hardware.',
   links: {
     github: 'https://github.com/ArsalJafri',
     linkedin: '',
