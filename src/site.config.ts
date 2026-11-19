@@ -10,8 +10,8 @@ export const SITE = {
     'Projects and writing by Arsal Jafri, a Computer Science student at the University of Houston building across systems, AI, and hardware.',
   links: {
     github: 'https://github.com/ArsalJafri',
-    linkedin: '',
-    email: '',
+    linkedin: 'https://www.linkedin.com/in/syed-arsal-jafri/',
+    email: 'arsaljafri@gmail.com',
   },
 } as const;
 
